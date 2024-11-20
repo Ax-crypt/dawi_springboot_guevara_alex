@@ -12,19 +12,12 @@ import lombok.*;
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int id;
-
-    @Column(name = "Name", length = 35)
-    private String name;
-
+    private int ID;
+    private String Name;
+    private String District;
+    private int Population;
     @ManyToOne
     @JoinColumn(name = "CountryCode", referencedColumnName = "Code", nullable = false)
     private Country country;
 
-    @Column(name = "District", length = 20)
-    private String district;
-
-    @Column(name = "Population")
-    private int population;
 }

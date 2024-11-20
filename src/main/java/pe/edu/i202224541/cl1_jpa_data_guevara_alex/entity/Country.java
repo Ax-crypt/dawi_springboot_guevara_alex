@@ -14,48 +14,23 @@ import java.util.List;
 @Table(name="country")
 public class Country {
     @Id
-    @Column(name = "Code", length = 3)
-    private String code;
-
-    @Column(name = "Name", length = 52)
-    private String name;
-
-    @Column(name = "Continent", length = 13)
-    private String continent;
-
-    @Column(name = "Region", length = 26)
-    private String region;
-
-    @Column(name = "SurfaceArea")
-    private double surfaceArea;
-
-    @Column(name = "IndepYear")
-    private Integer independenceYear;
-
-    @Column(name = "Population")
-    private int population;
-
-    @Column(name = "LifeExpectancy")
-    private Double lifeExpectancy;
-
-    @Column(name = "GNP")
-    private Double gnp;
-
-    @Column(name = "GNPOld")
-    private Double gnpOld;
-
-    @Column(name = "LocalName", length = 45)
-    private String localName;
-
-    private String gobermentform;
-
-    private String HeadOfState;
-
-    @Column(name = "Capital")
-    private Integer capital;
-
-    @Column(name = "Code2", length = 2)
-    private String code2;
+    private String Code;
+    private String Name;
+    @Column(name = "Continent", columnDefinition = "enum('Asia', 'Europe','North America', 'Africa', 'Oceania','Antarctica','South America')")
+    @Enumerated(EnumType.STRING)
+    private Continent continent;
+    private String Region;
+    private double surface_area;
+    private Integer indep_year;
+    private int Population;
+    private Double life_expectancy;
+    private Double GNP;
+    private Double GNPOld;
+    private String local_name;
+    private String government_form;
+    private String head_of_state;
+    private Integer Capital;
+    private String Code2;
 
     @OneToMany(mappedBy = "country")
     private List<City> cities;
@@ -63,4 +38,7 @@ public class Country {
     @OneToMany(mappedBy = "country")
     private List<CountryLanguage> countryLanguages;
 
+ public enum Continent {
+    ASIA, EUROPE,NORTH_AMERICA,AFRICA,OCEANIA,ANTARCTICA,SOUTH_AMERICA
+ }
 }

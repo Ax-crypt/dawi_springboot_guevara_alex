@@ -16,15 +16,11 @@ public class CountryLanguage {
     @JoinColumn(name = "CountryCode", referencedColumnName = "Code", nullable = false)
     private Country country;
     @Id
-    @Column(name = "Language", length = 30)
-    private String language;
-
+    private String Language;
+    private double Percentage;
     @Column(name = "IsOfficial", columnDefinition = "enum('T', 'F')")
     @Enumerated(EnumType.STRING)
     private OfficialStatus isOfficial;
-
-    @Column(name = "Percentage")
-    private double percentage;
 
     public enum OfficialStatus {
         T, F
