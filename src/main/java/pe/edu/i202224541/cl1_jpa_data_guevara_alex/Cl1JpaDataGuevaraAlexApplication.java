@@ -1,6 +1,5 @@
 package pe.edu.i202224541.cl1_jpa_data_guevara_alex;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +8,7 @@ import pe.edu.i202224541.cl1_jpa_data_guevara_alex.entity.Country;
 import pe.edu.i202224541.cl1_jpa_data_guevara_alex.entity.CountryLanguage;
 import pe.edu.i202224541.cl1_jpa_data_guevara_alex.repository.CountryRepository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,31 +26,33 @@ public class Cl1JpaDataGuevaraAlexApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 
-		Optional<Country> countryOpt = countryRepository.findById("ARG");
 
+		Optional<Country> countryOpt = countryRepository.findById("ARG");
 		countryOpt.ifPresentOrElse(
 				(item) -> {
 					// Imprimir los lenguajes de ARG
 					System.out.println("Idiomas hablados en ARG:");
-					item.getCountryLanguages().forEach(language -> {
-						System.out.println(language.getLanguage());
-					});
+				List<CountryLanguage> listado = Optional.ofNullable(item.getLanguages()).orElse(Collections.emptyList());
+				listado.stream().map(language ->
+						language.getCountryLanguageId().getLanguage()).forEach(System.out::println);
 				},
 				() -> {
 					// Si el país no existe, imprimimos los lenguajes de PER
 					System.out.println("Country not found, checking for PER...");
 
 					Optional<Country> peruOpt = countryRepository.findById("PER");
-					peruOpt.ifPresent(peru -> {
-						// Imprimir los lenguajes de PER
-						System.out.println("Idiomas hablados en PER:");
-						peru.getCountryLanguages().forEach(language -> {
-							System.out.println(language.getLanguage());
-						});
-					});
-				}
-		);
-
+					peruOpt.ifPresentOrElse((country) -> {
+								// Imprimir los lenguajes de PER
+								System.out.println("Idiomas hablados en PER:");
+								List<CountryLanguage> listado = Optional.ofNullable(country.getLanguages()).orElse(Collections.emptyList());
+								listado.stream().map(language ->
+										language.getCountryLanguageId().getLanguage()).forEach(System.out::println);
+							},
+							() -> {
+								System.out.println("Languages not found...");
+							}
+					);
+				});
 
 //		// Verificar si los países "COL" y "ARG" existen antes de eliminarlos
 //		if (countryRepository.existsById("COL") && countryRepository.existsById("ARG")) {
@@ -81,4 +83,4 @@ public class Cl1JpaDataGuevaraAlexApplication implements CommandLineRunner {
 //		);
 
 	}
-	}
+}

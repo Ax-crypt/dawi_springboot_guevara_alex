@@ -4,20 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ID;
-    private String Name;
-    private String District;
-    private int Population;
+    private int iD;
+    private String name;
+    private String district;
+    private int population;
     @ManyToOne
-    @JoinColumn(name = "CountryCode", referencedColumnName = "Code", nullable = false)
+    @JoinColumn(name = "CountryCode", nullable = false)
     private Country country;
 
 }

@@ -4,24 +4,21 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "countrylanguage")
 public class CountryLanguage {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "CountryCode", referencedColumnName = "Code", nullable = false)
-    private Country country;
-    @Id
-    private String Language;
-    private double Percentage;
-    @Column(name = "IsOfficial", columnDefinition = "enum('T', 'F')")
+   @EmbeddedId
+   private CountryLanguageId countryLanguageId;
+    @Column(name = "isOfficial", columnDefinition = "enum('T', 'F')")
     @Enumerated(EnumType.STRING)
     private OfficialStatus isOfficial;
-
+    private double Percentage;
+    @ManyToOne
+    @JoinColumn(name = "CountryCode", nullable = false)
+    @MapsId("countryCode")
+    private Country country;
     public enum OfficialStatus {
         T, F
     }
